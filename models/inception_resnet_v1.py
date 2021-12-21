@@ -206,9 +206,9 @@ class InceptionResnetV1(nn.Module):
         self.classify = classify
         self.num_classes = num_classes
 
-        if pretrained == 'vggface2':
+        if 'vggface2' in pretrained:
             tmp_classes = 8631
-        elif pretrained == 'casia-webface':
+        elif 'casia-webface' in pretrained:
             tmp_classes = 10575
         elif pretrained is None and self.classify and self.num_classes is None:
             raise Exception('If "pretrained" is not specified and "classify" is True, "num_classes" must be specified')
@@ -311,21 +311,21 @@ def load_weights(mdl, name):
     Raises:
         ValueError: If 'pretrained' not equal to 'vggface2' or 'casia-webface'.
     """
-    if name == 'vggface2':
-        path = 'https://storage.yandexcloud.net/cctv-models/20180402-114759-vggface2.pt'
-    elif name == 'casia-webface':
-        path = 'https://storage.yandexcloud.net/cctv-models/20180408-102900-casia-webface.pt'
-    else:
-        raise ValueError('Pretrained models only exist for "vggface2" and "casia-webface"')
+    # if name == 'vggface2':
+    #     path = 'https://storage.yandexcloud.net/cctv-models/20180402-114759-vggface2.pt'
+    # elif name == 'casia-webface':
+    #     path = 'https://storage.yandexcloud.net/cctv-models/20180408-102900-casia-webface.pt'
+    # else:
+    #     raise ValueError('Pretrained models only exist for "vggface2" and "casia-webface"')
+    #
+    # model_dir = os.path.join(get_torch_home(), 'checkpoints')
+    # os.makedirs(model_dir, exist_ok=True)
+    #
+    # cached_file = os.path.join(model_dir, os.path.basename(path))
+    # if not os.path.exists(cached_file):
+    #     download_url_to_file(path, cached_file)
 
-    model_dir = os.path.join(get_torch_home(), 'checkpoints')
-    os.makedirs(model_dir, exist_ok=True)
-
-    cached_file = os.path.join(model_dir, os.path.basename(path))
-    if not os.path.exists(cached_file):
-        download_url_to_file(path, cached_file)
-
-    state_dict = torch.load(cached_file)
+    state_dict = torch.load(name)
     mdl.load_state_dict(state_dict)
 
 
